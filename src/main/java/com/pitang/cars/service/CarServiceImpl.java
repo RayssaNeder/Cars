@@ -1,6 +1,8 @@
 package com.pitang.cars.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +23,7 @@ public class CarServiceImpl implements CarService {
 
 	@Override
 	public CarEntity create(CarEntity car) {
-		var carOptional = carRepository.findByLicensePlate(car.getLicensePlate());
+		Optional<CarEntity> carOptional = carRepository.findByLicensePlate(car.getLicensePlate());
 
 		if (carOptional.isPresent()) {
 			throw new AlreadyExistsException(String.format(
@@ -29,7 +31,7 @@ public class CarServiceImpl implements CarService {
 		              car.getLicensePlate()));
 		}
 
-		var carEntity = carRepository.save(car);
+		CarEntity carEntity = carRepository.save(car);
 		return carEntity;
 	}
 
@@ -40,7 +42,7 @@ public class CarServiceImpl implements CarService {
 
 	@Override
 	public CarEntity update(Long id, CarEntity updatedCar) {
-		var existingCarOptional = carRepository.findById(id);
+		Optional<CarEntity> existingCarOptional = carRepository.findById(id);
 
 		if (!existingCarOptional.isPresent()) {
 			throw new NotFoundException(String.format(

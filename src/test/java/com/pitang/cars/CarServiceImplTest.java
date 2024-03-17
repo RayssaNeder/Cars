@@ -1,6 +1,7 @@
 package com.pitang.cars;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.BDDMockito.given;
@@ -43,7 +44,7 @@ public class CarServiceImplTest {
 	  @SneakyThrows
 	  public void testCreate() {
 
-	    var car =
+		CarEntity car =
 	        new CarEntity();
 	    car.setColor(COLOR);
 	    car.setLicensePlate(LICENSE_PLATE);
@@ -55,7 +56,7 @@ public class CarServiceImplTest {
 
 	    doReturn(car).when(carRepository).save(car);
 
-	    var carReturned =
+	    CarEntity carReturned =
 	        carServiceImpl.create(car);
 
 	    assertEquals(carReturned.getLicensePlate(), LICENSE_PLATE);
@@ -69,7 +70,7 @@ public class CarServiceImplTest {
 	  @SneakyThrows
 	  public void testRead() {
 
-		 var car =
+		CarEntity car =
 			        new CarEntity();
 			    car.setColor(COLOR);
 			    car.setLicensePlate(LICENSE_PLATE);
@@ -81,7 +82,7 @@ public class CarServiceImplTest {
 	        .willReturn(Optional.of(car));
 	   
 
-	    var carReturned = carServiceImpl.read(1L);
+	    CarEntity carReturned = carServiceImpl.read(1L);
 
 	    assertEquals(carReturned.getLicensePlate(), LICENSE_PLATE);
 	    assertEquals(carReturned.getModel(), MODEL);
@@ -94,7 +95,7 @@ public class CarServiceImplTest {
 	  public void testList() {
 
 	 
-		 var car =
+		CarEntity car =
 			        new CarEntity();
 			    car.setColor(COLOR);
 			    car.setLicensePlate(LICENSE_PLATE);
@@ -103,14 +104,14 @@ public class CarServiceImplTest {
 			    
 	   
 
-	    var cars = Arrays.asList(car);
+			    List<CarEntity> cars = Arrays.asList(car);
 
 
 	    // Given
 	    given(carRepository.findAll())
 	        .willReturn(cars);
 
-	    var carsReturned = carServiceImpl.list();
+	    List<CarEntity> carsReturned = carServiceImpl.list();
 
 	    assertEquals(carsReturned.get(0).getColor(), COLOR);
 	    assertEquals(carsReturned.get(0).getLicensePlate(), LICENSE_PLATE);

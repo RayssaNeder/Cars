@@ -1,12 +1,13 @@
 package com.pitang.cars;
 
-import java.util.Arrays;
-import java.util.Optional;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.BDDMockito.given;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doReturn;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +17,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+import com.pitang.cars.model.CarEntity;
 import com.pitang.cars.model.UserEntity;
+import com.pitang.cars.repository.CarRepository;
 import com.pitang.cars.repository.UserRepository;
 import com.pitang.cars.service.UserServiceImpl;
 
@@ -37,18 +40,35 @@ public class UserServiceImplTest {
 	private static final String LAST_NAME = "lastName";
 
 	private static final String FIRST_NAME = "firstName";
+	
+	  private static final int YEAR = 2018;
+
+		private static final String MODEL = "Audi";
+
+		private static final String COLOR = "White";
+
+		private static final String LICENSE_PLATE = "PDV-0625";
 
 
 	@InjectMocks UserServiceImpl userServiceImpl;
 
-	  @Mock UserRepository carRepository;
+	  @Mock UserRepository userRepository;
+	  
+	  @Mock CarRepository carRepository;
 
 	
 	@Test
 	  @SneakyThrows
 	  public void testCreate() {
+		
+		CarEntity car =
+		        new CarEntity();
+		    car.setColor(COLOR);
+		    car.setLicensePlate(LICENSE_PLATE);
+		    car.setModel(MODEL);
+		    car.setYear(YEAR);
 
-	    var user =
+		UserEntity user =
 	        new UserEntity();
 	    user.setFirstName(FIRST_NAME);
 	    user.setLastName(LAST_NAME);
@@ -56,13 +76,14 @@ public class UserServiceImplTest {
 	    user.setPassword(PSSWORD_TEST);
 	    user.setPhone(PHONE_TEST);
 	    user.setEmail(EMAIL_TEST);
+	    user.setCars(Arrays.asList(car));
 	   
 	    // Given
-	   // doReturn(Optional.empty()).when(carRepository).findByLicensePlate(LICENSE_PLATE);
+	    doReturn(Optional.empty()).when(carRepository).findByLicensePlate(LICENSE_PLATE);
 
-	    doReturn(user).when(carRepository).save(user);
+	    doReturn(user).when(userRepository).save(user);
 
-	    var userReturned =
+	    UserEntity userReturned =
 	        userServiceImpl.create(user);
 
 	    assertEquals(userReturned.getFirstName(), FIRST_NAME);
@@ -78,7 +99,7 @@ public class UserServiceImplTest {
 	  @SneakyThrows
 	  public void testRead() {
 
-		 var user =
+		UserEntity user =
 			        new UserEntity();
 		 user.setFirstName(FIRST_NAME);
 		    user.setLastName(LAST_NAME);
@@ -88,11 +109,11 @@ public class UserServiceImplTest {
 		    user.setEmail(EMAIL_TEST);
 
 	    // Given
-	    given(carRepository.findById(1L))
+	    given(userRepository.findById(1L))
 	        .willReturn(Optional.of(user));
 	   
 
-	    var userReturned = userServiceImpl.read(1L);
+	    UserEntity userReturned = userServiceImpl.read(1L);
 
 	    assertEquals(userReturned.getFirstName(), FIRST_NAME);
 	    assertEquals(userReturned.getLastName(), LAST_NAME);
@@ -108,7 +129,7 @@ public class UserServiceImplTest {
 	  public void testList() {
 
 	 
-		 var user =
+		UserEntity user =
 			        new UserEntity();
 		 user.setFirstName(FIRST_NAME);
 		    user.setLastName(LAST_NAME);
@@ -120,14 +141,14 @@ public class UserServiceImplTest {
 			    
 	   
 
-	    var users = Arrays.asList(user);
+		    List<UserEntity> users = Arrays.asList(user);
 
 
 	    // Given
-	    given(carRepository.findAll())
+	    given(userRepository.findAll())
 	        .willReturn(users);
 
-	    var usersReturned = userServiceImpl.list();
+	    List<UserEntity> usersReturned = userServiceImpl.list();
 
 	    assertEquals(usersReturned.get(0).getFirstName(), FIRST_NAME);
 	    assertEquals(usersReturned.get(0).getLastName(), LAST_NAME);
