@@ -4,8 +4,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pitang.cars.exception.CarAlreadyExistsException;
-import com.pitang.cars.exception.CarNotFoundException;
+import com.pitang.cars.exception.AlreadyExistsException;
+import com.pitang.cars.exception.NotFoundException;
 import com.pitang.cars.model.CarEntity;
 import com.pitang.cars.repository.CarRepository;
 
@@ -24,7 +24,7 @@ public class CarServiceImpl implements CarService {
 		var carOptional = carRepository.findByLicensePlate(car.getLicensePlate());
 
 		if (carOptional.isPresent()) {
-			throw new CarAlreadyExistsException(String.format(
+			throw new AlreadyExistsException(String.format(
 		              "Carro com placa '%s' já cadastrado",
 		              car.getLicensePlate()));
 		}
@@ -43,7 +43,7 @@ public class CarServiceImpl implements CarService {
 		var existingCarOptional = carRepository.findById(id);
 
 		if (!existingCarOptional.isPresent()) {
-			throw new CarNotFoundException(String.format(
+			throw new NotFoundException(String.format(
 		              "Carro com id '%s' não encontrado",
 		              id));
 			

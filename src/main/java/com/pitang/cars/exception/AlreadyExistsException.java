@@ -1,12 +1,12 @@
 package com.pitang.cars.exception;
 
-public class CarAlreadyExistsException extends RuntimeException {
+public class AlreadyExistsException extends RuntimeException {
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public CarAlreadyExistsException(String message) {
+	public AlreadyExistsException(String message) {
         super(message);
     }
 }

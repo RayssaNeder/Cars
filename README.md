@@ -13,3 +13,6 @@ Inclui HandlerInterceptor pra leitura e validação do token que vem no header d
 
 ### [003] Implementação servico de carros
 Crição da Classe CarEntity, da tabela car, do Repository, Serviço e controler pra CRUD de um carro.Inclusão dos testes unitários utilizando Junit e Mockito
+
+### [004] Implementação servico de usurios
+Crição da Classe UserEntity, da tabela car, do Repository, Serviço e controler pra CRUD de um usurio.Inclusão dos testes unitários utilizando Junit e Mockito

@@ -1,12 +1,12 @@
 package com.pitang.cars.exception;
 
-public class CarNotFoundException extends RuntimeException {
+public class NotFoundException extends RuntimeException {
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public CarNotFoundException(String message) {
+	public NotFoundException(String message) {
         super(message);
     }
 }
