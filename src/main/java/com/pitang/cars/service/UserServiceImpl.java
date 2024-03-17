@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pitang.cars.exception.NotFoundException;
+import com.pitang.cars.model.CarEntity;
 import com.pitang.cars.model.UserEntity;
 import com.pitang.cars.repository.CarRepository;
 import com.pitang.cars.repository.UserRepository;
 
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
 
 	private UserRepository userRepository;
@@ -23,18 +23,18 @@ public class UserServiceImpl implements UserService {
 		this.carRepository = carRepository;
 	}
 
-	@Override
+	@Transactional
 	public UserEntity create(UserEntity user) {
-			    
-			    user.getCars().forEach(
-			        car -> {
-			          if (!carRepository.findByLicensePlate(car.getLicensePlate()).isPresent()) {
-			        	  carRepository.save(car);
-			          }
-			        });
-	
-			    UserEntity userEntity = userRepository.save(user);
-		return userEntity;
+	    for (CarEntity car : user.getCars()) {
+	        // Verificar se o carro já está no banco de dados
+	        Optional<CarEntity> existingCar = carRepository.findByLicensePlate(car.getLicensePlate());
+	        if (!existingCar.isPresent()) {
+	            carRepository.save(car);
+	        }
+	    }
+
+	    UserEntity userEntity = userRepository.save(user);
+	    return userEntity;
 	}
 
 	@Override
@@ -43,6 +43,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
+
 	public UserEntity update(Long id, UserEntity updatedUser) {
 		Optional<UserEntity> existingUserOptional = userRepository.findById(id);
 
