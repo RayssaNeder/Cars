@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pitang.cars.JwtTokenUtil;
 import com.pitang.cars.model.JwtRequest;
 import com.pitang.cars.model.JwtResponse;
+import com.pitang.cars.security.JwtTokenUtil;
 import com.pitang.cars.service.JwtUserDetailsService;
 
 @RestController

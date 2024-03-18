@@ -1,4 +1,4 @@
-package com.pitang.cars;
+package com.pitang.cars.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
