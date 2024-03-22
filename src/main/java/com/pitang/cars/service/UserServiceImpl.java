@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.pitang.cars.exception.AlreadyExistsException;
 import com.pitang.cars.exception.NotFoundException;
 import com.pitang.cars.exception.ServiceException;
 import com.pitang.cars.model.CarEntity;
@@ -27,16 +28,23 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	public UserEntity create(UserEntity user) {
-	    for (CarEntity car : user.getCars()) {
-	            carRepository.save(car);
-	        
-	    }
-	    
-		  BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		  user.setPassword(passwordEncoder.encode(user.getPassword()));
-	    
-	    UserEntity userEntity = userRepository.save(user);
-	    return userEntity;
+
+		Optional<UserEntity> existingUserOptional = userRepository.findByLogin(user.getLogin());
+		if (existingUserOptional.isPresent()) {
+			throw new AlreadyExistsException(String.format(user.getLogin()));
+
+		}
+       if(user.getCars() != null)
+		for (CarEntity car : user.getCars()) {
+			carRepository.save(car);
+
+		}
+
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+		UserEntity userEntity = userRepository.save(user);
+		return userEntity;
 	}
 
 	@Override
@@ -51,12 +59,8 @@ public class UserServiceImpl implements UserService {
 		Optional<UserEntity> existingUserOptional = userRepository.findById(id);
 
 		if (!existingUserOptional.isPresent()) {
-			throw new NotFoundException(String.format(
-		              "User com id '%s' não encontrado",
-		              id));
-			
-			
-			
+			throw new NotFoundException(String.format("User com id '%s' não encontrado", id));
+
 		}
 
 		UserEntity existingUser = existingUserOptional.get();
@@ -72,6 +76,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public void delete(Long id) {
 		userRepository.deleteById(id);
 
@@ -81,7 +86,5 @@ public class UserServiceImpl implements UserService {
 	public List<UserEntity> list() {
 		return userRepository.findAll();
 	}
-
-	
 
 }

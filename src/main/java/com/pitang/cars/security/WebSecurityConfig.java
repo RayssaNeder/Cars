@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.cors().and().csrf().disable()
 // Requisições não checadas
-				.authorizeRequests().antMatchers("/authenticate", "/api/users").permitAll().
+				.authorizeRequests().antMatchers("/authenticate", "/api/users/**").permitAll().
 // Qualquer outra requisição deve ser checada
 				anyRequest().authenticated().and().exceptionHandling()
 				.authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()

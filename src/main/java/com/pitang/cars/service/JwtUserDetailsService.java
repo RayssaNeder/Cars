@@ -1,6 +1,7 @@
 package com.pitang.cars.service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -21,10 +22,10 @@ public class JwtUserDetailsService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-		UserEntity user = userRepository.findByLogin(login);
+		Optional<UserEntity> user = userRepository.findByLogin(login);
 		
-		if (user.getLogin().equals(login)) {
-			return new User(login, user.getPassword(),
+		if (user.get().getLogin().equals(login)) {
+			return new User(login, user.get().getPassword(),
 					new ArrayList<>());
 		} else {
 			throw new UsernameNotFoundException("User not found with login: " + login);
