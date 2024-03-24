@@ -22,3 +22,6 @@ Utilização de Spring Security para autenticação e autorização.Ao realizar 
 
 ### [015] - Implementacao do serviço para /api/me
 Ajustes no userdatils e nos serviços para incluir informações de usuários logados 
+
+### [017] - Swagger implementacao
+API documentação Swagger
