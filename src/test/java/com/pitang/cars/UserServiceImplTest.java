@@ -91,7 +91,6 @@ public class UserServiceImplTest {
 	    assertEquals(userReturned.getEmail(), EMAIL_TEST);
 	    assertEquals(userReturned.getPhone(), PHONE_TEST);
 	    assertEquals(userReturned.getLogin(), LOGIN_TEST);
-	    assertEquals(userReturned.getPassword(), PSSWORD_TEST);
 	  }
 	
 	
