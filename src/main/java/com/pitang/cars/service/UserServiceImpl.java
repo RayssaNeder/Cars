@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.pitang.cars.exception.AlreadyExistsException;
 import com.pitang.cars.exception.NotFoundException;
-import com.pitang.cars.exception.ServiceException;
 import com.pitang.cars.model.CarEntity;
 import com.pitang.cars.model.UserEntity;
 import com.pitang.cars.repository.CarRepository;
