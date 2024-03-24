@@ -57,6 +57,7 @@ public class UserServiceImpl implements UserService {
 
 	public UserEntity update(Long id, UserEntity updatedUser) {
 		Optional<UserEntity> existingUserOptional = userRepository.findById(id);
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 		if (!existingUserOptional.isPresent()) {
 			throw new NotFoundException(String.format("User com id '%s' não encontrado", id));
@@ -68,7 +69,7 @@ public class UserServiceImpl implements UserService {
 		existingUser.setFirstName(updatedUser.getFirstName());
 		existingUser.setLastName(updatedUser.getLastName());
 		existingUser.setPhone(updatedUser.getPhone());
-		existingUser.setLogin(updatedUser.getLogin());
+		existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
 		existingUser.setPassword(updatedUser.getPassword());
 
 		return userRepository.saveAndFlush(existingUser);

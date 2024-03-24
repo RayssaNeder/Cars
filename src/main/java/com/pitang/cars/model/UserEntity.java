@@ -45,6 +45,13 @@ public class UserEntity {
 	
 	@Column(name = "phone ", nullable = true)
 	String phone ;
+	
+	@Column(name = "created_at ", nullable = true, updatable = false)
+	LocalDate createdAt = LocalDate.now() ;
+	
+	@Column(name = "last_login ", nullable = true)
+	LocalDate lastLogin ;
+
 
 	@OneToMany
 	@Column(name = "cars ", nullable = true)

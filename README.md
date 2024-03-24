@@ -19,3 +19,6 @@ Crição da Classe UserEntity, da tabela car, do Repository, Serviço e controle
 
 ### [005] Implementação de Autenticação/autorização 
 Utilização de Spring Security para autenticação e autorização.Ao realizar login, um token JWT é atribuído ao usuário com duração de 15 minutos para acessar endpoint /api/car
+
+### [015] - Implementacao do serviço para /api/me
+Ajustes no userdatils e nos serviços para incluir informações de usuários logados 
